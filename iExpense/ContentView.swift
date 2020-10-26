@@ -40,7 +40,31 @@ struct ContentView: View {
 }
 
 class Expenses: ObservableObject {
-    @Published var items = [ExpenseItem]()
+    @Published var items: [ExpenseItem] {
+        didSet {
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(items) {
+                UserDefaults.standard.set(encoded, forKey: "Items")
+            }
+        }
+    }
+    
+    init() {
+        // 1. Attempt to read "Items" key from UserDefaults
+        if let items = UserDefaults.standard.data(forKey: "Items") {
+            // 2. Create instance of JSONDecoder
+            let decoder = JSONDecoder()
+            // 3. Ask the decoder to convert the data into an array of ExpenseItem objects
+            // [ExpenseItem].self is referring to the type itself
+            if let decoded = try? decoder.decode([ExpenseItem].self, from: items) {
+                // 4. If successful, assign array to items and exit
+                self.items = decoded
+                return
+            }
+        }
+        // 5. Otherwise, set to be an empty array
+        self.items = []
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
