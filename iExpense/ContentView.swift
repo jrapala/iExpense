@@ -13,7 +13,8 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(expenses.items, id: \.name) { item in
+                // No id property necessary if it has an id property
+                ForEach(expenses.items) { item in
                     Text(item.name)
                 }
                 .onDelete(perform: removeItems)

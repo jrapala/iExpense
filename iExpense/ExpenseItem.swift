@@ -5,7 +5,10 @@
 //  Created by Juliette Rapala on 10/26/20.
 //
 
-struct ExpenseItem {
+import SwiftUI
+
+struct ExpenseItem: Identifiable {
+    let id = UUID()
     let name: String
     let type: String
     let amount: Int
