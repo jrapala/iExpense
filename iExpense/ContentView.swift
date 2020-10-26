@@ -16,7 +16,16 @@ struct ContentView: View {
             List {
                 // No id property necessary if it has an id property
                 ForEach(expenses.items) { item in
-                    Text(item.name)
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(item.name)
+                                .font(.headline)
+                            Text(item.type)
+                        }
+                        
+                        Spacer()
+                        Text("$\(item.amount)")
+                    }
                 }
                 .onDelete(perform: removeItems)
             }
